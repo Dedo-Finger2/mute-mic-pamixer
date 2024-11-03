@@ -26,5 +26,6 @@ export async function getAudioSouRcesFromPamixer(): Promise<Uint8Array> {
     listSourcesUint8ArrayChunks.set(chunk, chunkPosition);
     chunkPosition += chunk.length;
   }
+  listSourcesCommandChildProcess.stderr.cancel();
   return listSourcesUint8ArrayChunks;
 }
