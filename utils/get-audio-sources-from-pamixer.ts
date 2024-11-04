@@ -1,3 +1,5 @@
+import { transformReadableStreamIntoUintArray } from "./transform-readable-stream-into-uint-array.ts";
+
 export async function getAudioSouRcesFromPamixer(): Promise<Uint8Array> {
   const listSourcesCommand = new Deno.Command("pamixer", {
     args: [
@@ -9,23 +11,10 @@ export async function getAudioSouRcesFromPamixer(): Promise<Uint8Array> {
   const listSourcesCommandChildProcess = listSourcesCommand.spawn();
   const listSourcesStreamReader = listSourcesCommandChildProcess.stdout
     .getReader();
-  const listSourcesChunks = [];
-  while (true) {
-    const { done, value } = await listSourcesStreamReader.read();
-    if (done) break;
-    listSourcesChunks.push(value);
-  }
-  const listSourcesUint8ArrayChunks = new Uint8Array(
-    listSourcesChunks.reduce(
-      (accumulator, chunk) => accumulator + chunk.length,
-      0,
-    ),
-  );
-  let chunkPosition = 0;
-  for (const chunk of listSourcesChunks) {
-    listSourcesUint8ArrayChunks.set(chunk, chunkPosition);
-    chunkPosition += chunk.length;
-  }
+  const listSourcesUint8ArrayChunks =
+    await transformReadableStreamIntoUintArray(
+      listSourcesStreamReader,
+    );
   listSourcesCommandChildProcess.stderr.cancel();
   return listSourcesUint8ArrayChunks;
 }

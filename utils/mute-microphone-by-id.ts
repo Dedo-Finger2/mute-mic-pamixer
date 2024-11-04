@@ -1,9 +1,11 @@
-export function muteMicrophoneByID(id: number) {
-  new Deno.Command("pamixer", {
+export async function muteMicrophoneByID(id: number) {
+  const command = new Deno.Command("pamixer", {
     args: [
       "--source",
       id.toString(),
       "-t",
     ],
-  }).spawn();
+  });
+  const childProcess = command.spawn();
+  await childProcess.status;
 }
