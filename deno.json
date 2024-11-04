@@ -3,9 +3,9 @@
     "dev": "deno run --allow-run main.ts",
     "test": "deno test --allow-run tests/*.test.ts",
     "compile-all": "deno task compile-windows && deno task compile-mac && deno task compile-linux",
-    "compile-windows": "deno compile --output bin/mute-mic-win --target x86_64-pc-windows-msvc main.ts",
-    "compile-mac": "deno compile --output bin/mute-mic-mac --target x86_64-apple-darwin main.ts",
-    "compile-linux": "deno compile --output bin/mute-mic-linux --target x86_64-unknown-linux-gnu main.ts"
+    "compile-windows": "deno compile --allow-run --output bin/mute-mic-win --target x86_64-pc-windows-msvc main.ts",
+    "compile-mac": "deno compile --allow-run --output bin/mute-mic-mac --target x86_64-apple-darwin main.ts",
+    "compile-linux": "deno compile --allow-run --output bin/mute-mic-linux --target x86_64-unknown-linux-gnu main.ts"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1"
